@@ -1,97 +1,37 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Dashboard"
 ---
 
-## Setting up
-
-Get your documentation site up and running in minutes.
-
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
+## Quickstart
 
 <Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+  <Card title="Start here" icon="rocket" horizontal href="https://help.wiza.co/en/articles/8392662-wiza-s-api-everything-you-need-to-know">
+    Create an API key, authenticate, and make your first call in minutes.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Create an API key" icon="key" horizontal href="https://wiza.co/app/settings/api">
+    Generate a key, rotate it safely, and configure webhooks.
   </Card>
 </Columns>
 
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
+## Common workflows
 
 <Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
+  <Card title="Create a list (bulk enrich)" icon="list" href="/guides/create-list">
+    POST /api/lists to enrich up to 2,500 items and receive completion via webhook.
   </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
+  <Card title="Get list status" icon="arrows-rotate" href="/guides/list-status">
+    Poll GET /api/lists/:id until queued → processing → complete (or failed).
   </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
+  <Card title="Download contacts" icon="file-csv" href="/guides/list-contacts">
+    GET /api/lists/:id/contacts (or .csv) with segment filters (people/valid/risky).
   </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+  <Card title="Individual reveal" icon="user-check" href="/guides/individual-reveal">
+    POST /api/individual_reveals for one-off enrichment by name, email, or LinkedIn URL.
+  </Card>
+  <Card title="Prospect search" icon="magnifying-glass" href="/guides/prospect-search">
+    POST /api/prospects/search to preview counts and validate filters.
+  </Card>
+  <Card title="Prospect list from filters" icon="layer-group" href="/guides/prospect-list">
+    POST /api/prospects/create_prospect_list to generate a list from filters + max_profiles.
   </Card>
 </Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
