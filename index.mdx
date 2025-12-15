@@ -16,22 +16,22 @@ title: "Dashboard"
 ## Common workflows
 
 <Columns cols={2}>
-  <Card title="Create a list (bulk enrich)" icon="list" href="/guides/create-list">
+  <Card title="Create a list (bulk enrich)" icon="list" href="/api-reference/create-list">
     POST /api/lists to enrich up to 2,500 items and receive completion via webhook.
   </Card>
-  <Card title="Get list status" icon="arrows-rotate" href="/guides/list-status">
+  <Card title="Get list status" icon="arrows-rotate" href="/api-reference/list-status">
     Poll GET /api/lists/:id until queued → processing → complete (or failed).
   </Card>
-  <Card title="Download contacts" icon="file-csv" href="/guides/list-contacts">
+  <Card title="Download contacts" icon="file-csv" href="/api-reference/list-contacts">
     GET /api/lists/:id/contacts (or .csv) with segment filters (people/valid/risky).
   </Card>
-  <Card title="Individual reveal" icon="user-check" href="/guides/individual-reveal">
+  <Card title="Individual reveal" icon="user-check" href="/api-reference/individual-reveal">
     POST /api/individual_reveals for one-off enrichment by name, email, or LinkedIn URL.
   </Card>
-  <Card title="Prospect search" icon="magnifying-glass" href="/guides/prospect-search">
+  <Card title="Prospect search" icon="magnifying-glass" href="/api-reference/prospect-search">
     POST /api/prospects/search to preview counts and validate filters.
   </Card>
-  <Card title="Prospect list from filters" icon="layer-group" href="/guides/prospect-list">
+  <Card title="Prospect list from filters" icon="layer-group" href="/api-reference/prospect-list">
     POST /api/prospects/create_prospect_list to generate a list from filters + max_profiles.
   </Card>
 </Columns>
