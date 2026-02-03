@@ -1,0 +1,26 @@
+---
+title: "Find LinkedIn Profile Information"
+description: "Get detailed LinkedIn profile data"
+---
+
+## Step 1: Start Individual Reveal
+
+**Endpoint:** `POST https://wiza.co/api/individual_reveals`
+
+Send a POST request with your API key and set `"enrichment_level": "none"` to retrieve LinkedIn profile information.
+
+Wiza retrieves this data in real-time and returns the fields listed under [LinkedIn Profile Information](/overview/data-dictionary#linkedin-profile-information) and [Company Information](/overview/data-dictionary#company-details) in the Data Dictionary.
+
+<Note>
+Not all data points are included by default. To include additional LinkedIn attributes, go to **Settings → Data & Export → Advanced Columns** and enable the desired fields.
+</Note>
+
+<Note>
+The request may take 0 - 15 seconds to process, with an average response time of ~5 seconds. The response will include an `id`, which you will use in Step 2 to retrieve the enriched LinkedIn profile data.
+</Note>
+
+---
+
+## Step 2: Retrieve LinkedIn Profile Results
+
+Use the `id` returned from Step 1 to access the enriched data. LinkedIn profile and company information associated with the profile will be returned.

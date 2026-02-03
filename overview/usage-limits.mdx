@@ -1,0 +1,27 @@
+---
+title: "Usage Limits"
+description: "API rate limits and usage guidelines"
+---
+
+The following behavior applies specifically to the **Start Individual Reveal API** (`https://wiza.co/api/individual_reveals`):
+
+## Concurrency Limit
+
+You can send requests to Wiza in batches, each of which requires a brief real-time processing step to find and verify contact data in real-time. The concurrency limit defines how many requests can be processed in parallel at any moment. When that limit is reached, additional requests queue and automatically begin processing as soon as an active request completes.
+
+| Plan | Concurrency Limit |
+|------|-------------------|
+| Starter API | 5 |
+| Enterprise API | 15+ (scales higher) |
+
+<Note>
+**Example:** If your concurrency limit is 15 and you send 50 requests at once, 15 requests will begin processing immediately. The remaining 35 requests are placed in the queue. As each active request completes and returns a response, the next queued request starts processing automatically.
+</Note>
+
+## Queue Limit
+
+A queue limit defines how many requests can be held waiting when all concurrency slots are currently in use. It is set to **200× your concurrency limit**, and once the queue is full, additional requests will return errors until capacity becomes available.
+
+<Note>
+**Example:** If your concurrency limit is 15, your queue limit is 3,000.
+</Note>

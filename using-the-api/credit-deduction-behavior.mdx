@@ -1,0 +1,38 @@
+---
+title: "Credit Deduction Behavior"
+description: "Understand how credits are consumed"
+---
+
+Credits are pre-paid in bulk and deducted only when data is successfully returned:
+
+| Data Type | Enrichment Level | Credits Deducted |
+|-----------|------------------|------------------|
+| Phones | `"enrichment_level": "phone"` or `"full"` | 5 credits if at least one phone number is returned |
+| Emails | `"enrichment_level": "email"` or `"full"` | 2 credits if at least one "valid" marked email is returned |
+| LinkedIn profile details | `"enrichment_level": "none"` | 1 credit if a LinkedIn URL is found and matched |
+
+---
+
+## Confirming Credit Deductions
+
+After making a POST request and retrieving results via the GET endpoint (`https://wiza.co/api/individual_reveals/{id}`), you can confirm the credits that were deducted in the response under the `credits` object.
+
+The relevant fields include:
+
+- **api_credits.total** – Total API credits remaining
+- **api_credits.email_credits** – Number of credits deducted due to emails found
+- **api_credits.phone_credits** – Number of credits deducted due to phones found
+- **api_credits.scrape_credits** – Number of credits deducted due to LinkedIn URLs found
+
+**Sample GET Response Snippet:**
+
+```json
+"credits": {
+    "api_credits": {
+        "total": 5,
+        "email_credits": 0,
+        "phone_credits": 5,
+        "scrape_credits": 0
+    }
+}
+```

@@ -1,0 +1,85 @@
+---
+title: "Find Mobile Phone Number"
+description: "Retrieve mobile phone numbers for contacts"
+---
+
+Wiza may return up to three mobile numbers per profile. For highest quality results, parse the following fields:
+
+- **phone_number** – Primary mobile number, highest quality in E.164 format.
+- **number_pretty** – Human-readable format (e.g., +1 (123) 456-7890).
+- **number** – Raw number from the phones array, in E.164 format.
+
+<Note>
+- In the phones array, `"type": "mobile"` and `"type": "other"` are all mobile numbers
+- All numbers in the phones array (up to three) can be parsed
+- Do not rely solely on `mobile_phone`
+</Note>
+
+---
+
+## Step 1: Start Individual Reveal
+
+**Endpoint:** `https://wiza.co/api/individual_reveals`
+
+Send a POST request with your API key and `"enrichment_level": "phone"`. The request may take 0-15 seconds to process, with an average response time of ~4 seconds. The response will include an `id`, which you will use in Step 2.
+
+**Sample Request Body:**
+
+```json
+{
+  "individual_reveal": {
+    "profile_url": "https://www.linkedin.com/in/stephen-hakami-5babb21b0/"
+  },
+  "enrichment_level": "phone"
+}
+```
+
+---
+
+## Step 2: Retrieve Reveal Results
+
+Use the `id` returned from Step 1 to access the enriched data. For best results, parse `phone_number`, `number_pretty`, or `number`. Wiza may return up to three mobile numbers in E.164 format.
+
+**Sample 1 Response Snippet: One Mobile Number Found**
+
+```json
+{
+  "mobile_phone": null,
+  "phone_number": "+13133383662",
+  "phone_status": "found",
+  "phones": [
+    {
+      "number": "+13133383662",
+      "number_pretty": "+1 (313) 338-3662",
+      "type": "other"
+    }
+  ]
+}
+```
+
+**Sample 2 Response Snippet: Multiple Mobile Numbers Found**
+
+```json
+{
+  "mobile_phone": "+14155552672",
+  "phone_number": "+14155552672",
+  "phone_status": "found",
+  "phones": [
+    {
+      "number": "+14155552672",
+      "number_pretty": "+1 (415) 555-2672",
+      "type": "mobile"
+    },
+    {
+      "number": "+13105559874",
+      "number_pretty": "+1 (310) 555-9874",
+      "type": "other"
+    },
+    {
+      "number": "+14085551254",
+      "number_pretty": "+1 (408) 555-1254",
+      "type": "other"
+    }
+  ]
+}
+```

@@ -1,0 +1,44 @@
+---
+title: "Find Email Addresses"
+description: "Find work and personal email addresses"
+---
+
+Wiza may return one work email and one personal email per profile.
+
+---
+
+## Step 1: Start Individual Reveal
+
+**Endpoint:** `https://wiza.co/api/individual_reveals`
+
+Send a POST request with your API key, setting `"enrichment_level": "partial"` to retrieve emails. Use the `email_options` object to specify whether you want to find work emails, personal emails, or both:
+
+- `"accept_work": true` → include work emails
+- `"accept_personal": true` → include personal emails
+
+Setting a value to `false` indicates that you do not want to retrieve that type of email.
+
+<Note>
+Requests for work emails may take 0 - 380 seconds to process, with an average response time of ~25 seconds. Requests for personal emails may take 0 - 15 seconds to process, with an average response time of ~4 seconds. The response will include an `id`, which you will use in Step 2.
+</Note>
+
+**Sample Request Body:**
+
+```json
+{
+  "individual_reveal": {
+    "profile_url": "https://www.linkedin.com/in/stephen-hakami-5babb21b0/"
+  },
+  "enrichment_level": "partial",
+  "email_options": {
+    "accept_work": true,
+    "accept_personal": false
+  }
+}
+```
+
+---
+
+## Step 2: Retrieve Reveal Results
+
+Use the `id` returned from Step 1 to access the enriched data. For best results, parse `email`, `email_type`, and `email_status` from the emails array. Multiple emails may be returned per profile.

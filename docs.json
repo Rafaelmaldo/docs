@@ -1,5 +1,5 @@
 {
-  "$schema": "https://mintlify.com/docs.schema.json",
+  "$schema": "https://mintlify.com/docs.json",
   "name": "Wiza Docs",
   "theme": "mint",
   "colors": {
@@ -9,11 +9,45 @@
     "light": "/logo-light.png",
     "dark": "/logo-dark.png"
   },
+  "favicon": "/favicon.png",
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "API Reference",
-        "openapi": "https://wiza.co/api/api-docs/v1/openapi.yaml"
+        "group": "Overview",
+        "pages": [
+          "overview/introduction",
+          "overview/key-functionality",
+          "overview/data-dictionary",
+          "overview/usage-limits",
+          "overview/api-playground"
+        ]
+      },
+      {
+        "group": "Account Access",
+        "pages": [
+          "account-access/account-setup",
+          "account-access/purchasing-api-credits",
+          "account-access/generate-api-key",
+          "account-access/api-key-management"
+        ]
+      },
+      {
+        "group": "Using the API",
+        "pages": [
+          "using-the-api/recommended-inputs",
+          "using-the-api/find-mobile-phone-number",
+          "using-the-api/find-email-addresses",
+          "using-the-api/find-linkedin-profile-information",
+          "using-the-api/bulk-enrichment",
+          "using-the-api/credit-deduction-behavior",
+          "using-the-api/status-codes-and-errors"
+        ]
+      },
+      {
+        "group": "Integrations",
+        "pages": [
+          "integrations/clay"
+        ]
       }
     ]
   }

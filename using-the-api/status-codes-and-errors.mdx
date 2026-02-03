@@ -1,0 +1,24 @@
+---
+title: "Status Codes & Errors"
+description: "Handle API responses and errors"
+---
+
+<Note>
+Not all API status codes are currently documented by Wiza. This documentation contains the most common codes. If you encounter a status that does not make sense, contact Wiza's support team for further assistance.
+</Note>
+
+## HTTP Status Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 400 | Invalid request format or parameters |
+| 401 | Authentication failed or missing credentials |
+| 403 | Forbidden |
+| 404 | Assigned User not granted access or record not found |
+| 429 | Usage limits exceeded |
+
+---
+
+## Billing Issue Status Code
+
+Billing issues return a `200` response, but the reveal does not run. The record is marked as `status: "failed"` with `fail_error: "billing_issue"`, indicating processing was blocked due to missing credits or an unresolved payment.
