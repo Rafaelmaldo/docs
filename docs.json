@@ -3,7 +3,9 @@
   "name": "Wiza Docs",
   "theme": "mint",
   "colors": {
-    "primary": "#4F46E5"
+    "primary": "#7E43FF",
+    "light": "#E0D3FD",
+    "dark": "#4C24A3"
   },
   "logo": {
     "light": "/logo-light.png",
