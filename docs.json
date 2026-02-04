@@ -46,9 +46,18 @@
         ]
       },
       {
+        "group": "API Reference",
+        "openapi": {
+          "source": "https://docs-update.staging.wizadev.net/api/api-docs/v1/openapi.yaml",
+          "directory": "api-reference"
+        }
+      },
+      {
         "group": "Integrations",
         "pages": [
-          "integrations/clay"
+          "integrations/clay",
+          "integrations/n8n",
+          "integrations/apollo"
         ]
       }
     ]
