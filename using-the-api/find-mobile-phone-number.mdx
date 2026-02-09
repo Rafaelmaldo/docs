@@ -10,9 +10,9 @@ Wiza may return up to three mobile numbers per profile. For highest quality resu
 - **number** – Raw number from the phones array, in E.164 format.
 
 <Note>
-- In the phones array, `"type": "mobile"` and `"type": "other"` are all mobile numbers
-- All numbers in the phones array (up to three) can be parsed
-- Do not rely solely on `mobile_phone`
+  - In the phones array, `"type": "mobile"` and `"type": "other"` are all mobile numbers
+  - All numbers in the phones array (up to three) can be parsed
+  - Do not rely solely on `mobile_phone`
 </Note>
 
 ---
@@ -21,7 +21,11 @@ Wiza may return up to three mobile numbers per profile. For highest quality resu
 
 **Endpoint:** `https://wiza.co/api/individual_reveals`
 
-Send a POST request with your API key and `"enrichment_level": "phone"`. The request may take 0-15 seconds to process, with an average response time of ~4 seconds. The response will include an `id`, which you will use in Step 2.
+Send a POST request with your API key and `"enrichment_level": "phone"`. The response will include an `id`, which you will use in Step 2.
+
+<Note>
+  The request may take 0-15 seconds to process, with an average response time of ~4 seconds. 
+</Note>
 
 **Sample Request Body:**
 
@@ -38,7 +42,7 @@ Send a POST request with your API key and `"enrichment_level": "phone"`. The req
 
 ## Step 2: Retrieve Reveal Results
 
-Use the `id` returned from Step 1 to access the enriched data. For best results, parse `phone_number`, `number_pretty`, or `number`. Wiza may return up to three mobile numbers in E.164 format.
+Use the `id` returned from Step 1 to access the enriched data. For best results, parse `phone_number`, `number_pretty`, or `number`. Wiza may return up to three mobile numbers.
 
 **Sample 1 Response Snippet: One Mobile Number Found**
 

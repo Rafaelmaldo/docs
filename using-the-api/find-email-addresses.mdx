@@ -11,15 +11,14 @@ Wiza may return one work email and one personal email per profile.
 
 **Endpoint:** `https://wiza.co/api/individual_reveals`
 
-Send a POST request with your API key, setting `"enrichment_level": "partial"` to retrieve emails. Use the `email_options` object to specify whether you want to find work emails, personal emails, or both:
+Send a POST request with your API key, setting `"enrichment_level": "partial"` to retrieve emails. Use the `email_options` object to specify whether you want to find work emails, personal emails, or both. The response will include an `id`, which you will use in Step 2. 
 
 - `"accept_work": true` → include work emails
 - `"accept_personal": true` → include personal emails
-
-Setting a value to `false` indicates that you do not want to retrieve that type of email.
+- Setting a value to `false` indicates that you do not want to retrieve that type of email.
 
 <Note>
-Requests for work emails may take 0 - 380 seconds to process, with an average response time of ~25 seconds. Requests for personal emails may take 0 - 15 seconds to process, with an average response time of ~4 seconds. The response will include an `id`, which you will use in Step 2.
+  Requests for work emails may take 0 - 380 seconds to process, with an average response time of ~25 seconds. Requests for personal emails may take 0 - 15 seconds to process, with an average response time of ~4 seconds. 
 </Note>
 
 **Sample Request Body:**

@@ -5,13 +5,11 @@ description: "Understand how credits are consumed"
 
 Credits are pre-paid in bulk and deducted only when data is successfully returned:
 
-| Data Type | Enrichment Level | Credits Deducted |
-|-----------|------------------|------------------|
-| Phones | `"enrichment_level": "phone"` or `"full"` | 5 credits if at least one phone number is returned |
-| Emails | `"enrichment_level": "email"` or `"full"` | 2 credits if at least one "valid" marked email is returned |
-| LinkedIn profile details | `"enrichment_level": "none"` | 1 credit if a LinkedIn URL is found and matched |
-
----
+| Data Type                | Enrichment Level                          | Credits Deducted                                           |
+| ------------------------ | ----------------------------------------- | ---------------------------------------------------------- |
+| Phones                   | `"enrichment_level": "phone"` or `"full"` | 5 credits if at least one phone number is returned         |
+| Emails                   | `"enrichment_level": "email"` or `"full"` | 2 credits if at least one "valid" marked email is returned |
+| LinkedIn profile details | `"enrichment_level": "none"`              | 1 credit if a LinkedIn URL is found and matched            |
 
 ## Confirming Credit Deductions
 
