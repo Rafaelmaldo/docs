@@ -40,4 +40,6 @@ Send a POST request with your API key, setting `"enrichment_level": "partial"` t
 
 ## Step 2: Retrieve Reveal Results
 
+**Endpoint:** `GET https://wiza.co/api/individual_reveals/{id}`
+
 Use the `id` returned from Step 1 to access the enriched data. For best results, parse `email`, `email_type`, and `email_status` from the emails array. Multiple emails may be returned per profile.

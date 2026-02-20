@@ -8,3 +8,55 @@ For the `/api/individual_reveals` endpoint, provide one of the following input o
 1. **LinkedIn URL** **(strongly recommended)** - Provides the highest performing results
 2. **Full name + company domain and/or company name** - Including a company domain improves match accuracy, as domains are unique while company names may have duplicates. This option provides the next best performing results.
 3. **Email address** - Use only if other input options are unavailable
+
+---
+
+## Payload Examples
+
+### Option 1: LinkedIn URL
+
+```json
+{
+  "individual_reveal": {
+    "profile_url": "https://www.linkedin.com/in/stephen-hakami-5babb21b0/"
+  },
+  "enrichment_level": "partial"
+}
+```
+
+### Option 2: Full Name + Company Domain
+
+```json
+{
+  "individual_reveal": {
+    "first_name": "Stephen",
+    "last_name": "Hakami",
+    "company_domain": "wiza.co"
+  },
+  "enrichment_level": "partial"
+}
+```
+
+### Option 2b: Full Name + Company Name
+
+```json
+{
+  "individual_reveal": {
+    "first_name": "Stephen",
+    "last_name": "Hakami",
+    "company_name": "Wiza"
+  },
+  "enrichment_level": "partial"
+}
+```
+
+### Option 3: Email Address
+
+```json
+{
+  "individual_reveal": {
+    "email": "stephen@wiza.co"
+  },
+  "enrichment_level": "partial"
+}
+```

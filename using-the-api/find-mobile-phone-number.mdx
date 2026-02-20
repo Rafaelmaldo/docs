@@ -42,6 +42,8 @@ Send a POST request with your API key and `"enrichment_level": "phone"`. The res
 
 ## Step 2: Retrieve Reveal Results
 
+**Endpoint:** `GET https://wiza.co/api/individual_reveals/{id}`
+
 Use the `id` returned from Step 1 to access the enriched data. For best results, parse `phone_number`, `number_pretty`, or `number`. Wiza may return up to three mobile numbers.
 
 **Sample 1 Response Snippet: One Mobile Number Found**

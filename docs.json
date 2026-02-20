@@ -5,13 +5,14 @@
   "colors": {
     "primary": "#7E43FF",
     "light": "#E0D3FD",
-    "dark": "#4C24A3"
+    "dark": "#7C3AED"
   },
   "logo": {
     "light": "/logo-light.png",
     "dark": "/logo-dark.png"
   },
   "favicon": "/favicon.png",
+  "js": "/scripts/open-expandables.js",
   "navigation": {
     "groups": [
       {
@@ -35,6 +36,7 @@
       {
         "group": "Using the API",
         "pages": [
+          "using-the-api/authorization",
           "using-the-api/recommended-inputs",
           "using-the-api/find-mobile-phone-number",
           "using-the-api/find-email-addresses",
@@ -47,7 +49,7 @@
       {
         "group": "API Reference",
         "openapi": {
-          "source": "https://docs-update.staging.wizadev.net/api/api-docs/v1/openapi.yaml",
+          "source": "https://localenv.me/api/api-docs/v1/openapi.yaml",
           "directory": "api-reference"
         }
       },

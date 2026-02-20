@@ -1,0 +1,93 @@
+---
+title: "Webhooks"
+description: "Receive notifications when enrichment requests complete"
+---
+
+Wiza can send webhook notifications to your server when enrichment requests complete. This allows you to process results asynchronously without polling the API.
+
+## Setup
+
+Configure your webhook URL in [Settings → API](https://wiza.co/app/settings/api). Wiza will send a POST request to this URL when a list enrichment completes.
+
+## Callback URL
+
+You can also specify a `callback_url` in your API request to override the default webhook URL:
+
+```json
+{
+  "list": {
+    "name": "My List",
+    "enrichment_level": "partial",
+    "email_options": {
+      "accept_work": true,
+      "accept_personal": true
+    },
+    "items": [...],
+    "callback_url": "https://your-server.com/webhooks/wiza"
+  }
+}
+```
+
+## Webhook Payload
+
+When a list completes, Wiza sends a POST request with the same payload as the list response:
+
+```json
+{
+  "status": {
+    "code": 200,
+    "message": ""
+  },
+  "data": {
+    "list": {
+      "id": 123456,
+      "name": "My List",
+      "status": "completed",
+      "total_contacts": 10,
+      "completed_contacts": 10,
+      "created_at": "2024-01-15T10:30:00Z",
+      "completed_at": "2024-01-15T10:35:00Z"
+    }
+  }
+}
+```
+
+## Authentication
+
+Webhook requests include an `x-auth-key` header containing a SHA256 hash of your API key. Use this to verify the request originated from Wiza:
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(request, apiKey) {
+  const receivedHash = request.headers['x-auth-key'];
+  const expectedHash = crypto
+    .createHash('sha256')
+    .update(apiKey)
+    .digest('hex');
+  
+  return receivedHash === expectedHash;
+}
+```
+
+## Status Handling
+
+Check the `status` field in the webhook payload:
+
+| Status | Description |
+|--------|-------------|
+| `completed` | List enrichment finished successfully |
+| `failed` | List enrichment failed (check `fail_error` for details) |
+
+<Note>
+Lists may fail due to LinkedIn rate limiting. Always check the status field and handle failures appropriately.
+</Note>
+
+## Retry Behavior
+
+If your webhook endpoint returns a non-2xx response, Wiza will not automatically retry. Ensure your endpoint is available and returns a 200 status code to acknowledge receipt.
+
+## Related
+
+- [Bulk Enrichment](/using-the-api/bulk-enrichment) - Enrich multiple contacts at once
+- [Status Codes & Errors](/using-the-api/status-codes-and-errors) - Handle API responses
