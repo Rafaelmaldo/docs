@@ -49,7 +49,7 @@
       {
         "group": "API Reference",
         "openapi": {
-          "source": "https://localenv.me/api/api-docs/v1/openapi.yaml",
+          "source": "https://docs-update.staging.wizadev.net/api/api-docs/v1/openapi.yaml",
           "directory": "api-reference"
         }
       },
