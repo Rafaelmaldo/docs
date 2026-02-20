@@ -22,7 +22,6 @@
     "response-data-emails": true,
     "response-data-phones": true,
     "response-data-credits": true,
-    "response-data-credits-api-credits": true,
     "response-data-profiles": true,
     "response-credits": true,
     "response-credits-email-credits": true,
