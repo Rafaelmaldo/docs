@@ -42,6 +42,7 @@
           "using-the-api/find-email-addresses",
           "using-the-api/find-linkedin-profile-information",
           "using-the-api/bulk-enrichment",
+          "using-the-api/webhooks",
           "using-the-api/credit-deduction-behavior",
           "using-the-api/status-codes-and-errors"
         ]
@@ -49,7 +50,7 @@
       {
         "group": "API Reference",
         "openapi": {
-          "source": "https://docs-update.staging.wizadev.net/api/api-docs/v1/openapi.yaml",
+          "source": "https://staging.wizadev.net/api/api-docs/v1/openapi.yaml",
           "directory": "api-reference"
         }
       },

@@ -1,62 +1,180 @@
 ---
 title: "Webhooks"
-description: "Receive notifications when enrichment requests complete"
+description: "Receive real-time notifications when enrichment requests complete"
 ---
 
-Wiza can send webhook notifications to your server when enrichment requests complete. This allows you to process results asynchronously without polling the API.
+Wiza sends webhook notifications to your server when enrichment requests complete. This lets you process results asynchronously without polling the API.
 
-## Setup
+When a request finishes (or fails), Wiza sends a `POST` request to your configured URL with the enrichment results.
 
-Configure your webhook URL in [Settings → API](https://wiza.co/app/settings/api). Wiza will send a POST request to this URL when a list enrichment completes.
+---
 
-## Callback URL
+## Setting Up Your Webhook URL
 
-You can also specify a `callback_url` in your API request to override the default webhook URL:
+Configure your default webhook URL in [Settings → API](https://wiza.co/app/settings/api). This URL applies to all API requests made with that key.
+
+You can also enable **Send All Callbacks** to receive webhooks for all enrichment activity on your account, not just requests made through the API.
+
+<Note>
+Your webhook endpoint must be publicly accessible and return a `200` status code to acknowledge receipt.
+</Note>
+
+---
+
+## Handling Webhook Requests
+
+Respond quickly with a `200` status code to acknowledge receipt. If your processing takes time, accept the webhook first and handle the work asynchronously in a background job.
+
+Use `status.code` to check for success (`200`) or failure (`400`). For the full response schema, see the [Individual Reveal](/using-the-api/find-email-addresses#step-2-retrieve-reveal-results) documentation.
+
+<CodeGroup>
+
+```javascript JavaScript
+app.post('/webhook', (req, res) => {
+  // Acknowledge receipt immediately
+  res.status(200).send('OK');
+
+  // Process asynchronously
+  const { status, data } = req.body;
+
+  if (status.code === 200) {
+    processReveal(data);
+  }
+});
+```
+
+```python Python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def wiza_webhook():
+    payload = request.get_json()
+    status = payload.get('status', {})
+    data = payload.get('data')
+
+    if status.get('code') == 200:
+        process_reveal(data)
+
+    # Acknowledge receipt immediately
+    return jsonify({'status': 'ok'}), 200
+```
+
+```ruby Ruby
+post '/webhook' do
+  payload = JSON.parse(request.body.read)
+  status = payload['status']
+  data = payload['data']
+
+  if status['code'] == 200
+    process_reveal(data)
+  end
+
+  # Acknowledge receipt immediately
+  status 200
+  { status: 'ok' }.to_json
+end
+```
+
+</CodeGroup>
+
+---
+
+## Overriding the Webhook URL Per Request
+
+You can override the default webhook URL on a per-request basis by including a `callback_url` parameter in your **Start Individual Reveal** request.
 
 ```json
 {
-  "list": {
-    "name": "My List",
-    "enrichment_level": "partial",
-    "email_options": {
-      "accept_work": true,
-      "accept_personal": true
-    },
-    "items": [...],
-    "callback_url": "https://your-server.com/webhooks/wiza"
-  }
+  "individual_reveal": {
+    "profile_url": "https://www.linkedin.com/in/stephen-hakami-5babb21b0/"
+  },
+  "enrichment_level": "partial",
+  "callback_url": "https://your-server.com/webhook"
 }
 ```
 
+---
+
 ## Webhook Payload
 
-When a list completes, Wiza sends a POST request with the same payload as the list response:
+**Endpoint:** `POST {your_webhook_url}`
+
+Wiza sends a webhook when an Individual Reveal completes or fails. The request is a `POST` with a `Content-Type: application/json` header sent to your configured URL or the `callback_url` specified in the request. The `data` object contains the same enrichment results as the corresponding GET endpoint.
+
+**Individual Reveal Payload:**
 
 ```json
 {
   "status": {
     "code": 200,
-    "message": ""
+    "message": "Single reveal finished"
   },
+  "type": "individual_reveal",
   "data": {
-    "list": {
-      "id": 123456,
-      "name": "My List",
-      "status": "completed",
-      "total_contacts": 10,
-      "completed_contacts": 10,
-      "created_at": "2024-01-15T10:30:00Z",
-      "completed_at": "2024-01-15T10:35:00Z"
+    "id": 123456,
+    "status": "finished",
+    "is_complete": true,
+    "name": "Stephen Hakami",
+    "company": "Wiza",
+    "enrichment_level": "partial",
+    "linkedin_profile_url": "https://www.linkedin.com/in/stephen-hakami-5babb21b0/",
+    "title": "Founder, Chief Executive Officer",
+    "location": "Toronto, Ontario, Canada",
+    "email": "stephen@wiza.co",
+    "email_type": "work",
+    "email_status": "valid",
+    "emails": [
+      {
+        "email": "stephen@wiza.co",
+        "email_type": "work",
+        "email_status": "valid"
+      }
+    ],
+    "credits": {
+      "email_credits": 1,
+      "phone_credits": 0,
+      "export_credits": 0,
+      "api_credits": {
+        "total": 2,
+        "email_credits": 2,
+        "phone_credits": 0,
+        "scrape_credits": 1
+      }
     }
   }
 }
 ```
 
-## Authentication
+**Failed Request Payload:**
 
-Webhook requests include an `x-auth-key` header containing a SHA256 hash of your API key. Use this to verify the request originated from Wiza:
+When a request fails, the `status.code` will be `400`. The `data` object contains the same fields as a successful response, with a `fail_error` field indicating the failure reason.
 
-```javascript
+```json
+{
+  "status": {
+    "code": 400,
+    "message": "Single reveal failed"
+  },
+  "type": "individual_reveal",
+  "data": {
+    "id": 123456,
+    "status": "failed",
+    "fail_error": "..."
+  }
+}
+```
+
+---
+
+## Verifying Webhook Signatures
+
+Webhook requests include an `x-auth-key` header containing a SHA256 hash of your API key. Use this to verify the request originated from Wiza.
+
+<CodeGroup>
+
+```javascript JavaScript
 const crypto = require('crypto');
 
 function verifyWebhook(request, apiKey) {
@@ -65,29 +183,45 @@ function verifyWebhook(request, apiKey) {
     .createHash('sha256')
     .update(apiKey)
     .digest('hex');
-  
+
   return receivedHash === expectedHash;
 }
 ```
 
-## Status Handling
+```python Python
+import hashlib
 
-Check the `status` field in the webhook payload:
+def verify_webhook(headers, api_key):
+    received_hash = headers.get('x-auth-key')
+    expected_hash = hashlib.sha256(api_key.encode()).hexdigest()
+    return received_hash == expected_hash
+```
 
-| Status | Description |
-|--------|-------------|
-| `completed` | List enrichment finished successfully |
-| `failed` | List enrichment failed (check `fail_error` for details) |
+```ruby Ruby
+require 'digest'
 
-<Note>
-Lists may fail due to LinkedIn rate limiting. Always check the status field and handle failures appropriately.
-</Note>
+def verify_webhook(request, api_key)
+  received_hash = request.headers['x-auth-key']
+  expected_hash = Digest::SHA256.hexdigest(api_key)
+  received_hash == expected_hash
+end
+```
+
+</CodeGroup>
+
+---
 
 ## Retry Behavior
 
-If your webhook endpoint returns a non-2xx response, Wiza will not automatically retry. Ensure your endpoint is available and returns a 200 status code to acknowledge receipt.
+If your webhook endpoint returns a non-2xx response, Wiza will retry up to 3 times. Ensure your endpoint is available and returns a `200` status code to acknowledge receipt.
+
+<Note>
+If a webhook consistently fails (returns 404 or 403), Wiza will stop retrying for that request.
+</Note>
+
+---
 
 ## Related
 
-- [Bulk Enrichment](/using-the-api/bulk-enrichment) - Enrich multiple contacts at once
-- [Status Codes & Errors](/using-the-api/status-codes-and-errors) - Handle API responses
+- [Status Codes & Errors](/using-the-api/status-codes-and-errors) — Handle API responses
+- [Authorization](/using-the-api/authorization) — Authenticate your API requests
